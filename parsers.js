@@ -5,7 +5,7 @@ const parseJson = (content) => JSON.parse(content);
 
 const parsers = {
   '.json': parseJson,
- };
+};
 
 const parseFile = (filepath) => {
   const ext = extname(filepath).toLowerCase();

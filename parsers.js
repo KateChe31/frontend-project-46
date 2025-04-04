@@ -1,10 +1,14 @@
 import { extname } from 'path';
 import fs from 'fs';
+import yaml from 'js-yaml';
 
 const parseJson = (content) => JSON.parse(content);
+const parseYaml = (content) => yaml.load(content);
 
 const parsers = {
   '.json': parseJson,
+  '.yaml': parseYaml,
+  '.yml': parseYaml,
 };
 
 const parseFile = (filepath) => {

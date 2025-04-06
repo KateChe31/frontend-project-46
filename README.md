@@ -7,3 +7,5 @@
 [Смотреть запись в терминале](https://asciinema.org/a/f4RTtB8ggB8NKnD6jXdoPF2Sf)
 ## Демонстрация работы пакета по поиску различий между двумя плоскими yaml-файлами( 6 шаг проекта)
 [Смотреть запись в терминале](https://asciinema.org/a/a8zBYpVnWOlpfBL52Mub7WIN5)
+## Демонстрация работы пакета по сравнению файлов yaml с вложенными структурами( 7 шаг проекта)
+[Смотреть запись в терминале](https://asciinema.org/a/DwdMl0SBWqDnMN2NqSRNTSGoF)

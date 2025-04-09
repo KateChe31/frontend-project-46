@@ -11,3 +11,5 @@
 [Смотреть запись в терминале](https://asciinema.org/a/DwdMl0SBWqDnMN2NqSRNTSGoF)
 ## Демонстрация работы пакета по работе форматера plain( 8 шаг проекта)
 [Смотреть запись в терминале](https://asciinema.org/a/8ZjzjiVZqUp8xiQv0N5034Dw5)
+## Демонстрация работы пакета( 9 шаг проекта)
+[Смотреть запись в терминале](https://asciinema.org/a/DFnsmdBE1zxJaA3YiyuhR2x9b)

@@ -15,27 +15,27 @@ const formatValue = (value, depth) => {
 };
 
 const formatStylish = (diff, depth = 1) => {
-  const indent = ' '.repeat(4 * depth - 2);
+  const indent = '    '.repeat(depth - 1);
   const lines = diff.flatMap((node) => {
     switch (node.type) {
       case 'added':
-        return `${indent}+ ${node.key}: ${formatValue(node.value, depth)}`;
+        return `${indent}  + ${node.key}: ${formatValue(node.value, depth + 1)}`;
       case 'removed':
-        return `${indent}- ${node.key}: ${formatValue(node.value, depth)}`;
+        return `${indent}  - ${node.key}: ${formatValue(node.value, depth + 1)}`;
       case 'changed':
         return [
-          `${indent}- ${node.key}: ${formatValue(node.value1, depth)}`,
-          `${indent}+ ${node.key}: ${formatValue(node.value2, depth)}`,
+          `${indent}  - ${node.key}: ${formatValue(node.value1, depth + 1)}`,
+          `${indent}  + ${node.key}: ${formatValue(node.value2, depth + 1)}`
         ];
       case 'nested':
-        return `${indent}  ${node.key}: ${formatStylish(node.children, depth + 1)}`;
+        return `${indent}    ${node.key}: ${formatStylish(node.children, depth + 1)}`;
       case 'unchanged':
-        return `${indent}  ${node.key}: ${formatValue(node.value, depth)}`;
+        return `${indent}    ${node.key}: ${formatValue(node.value, depth + 1)}`;
       default:
         throw new Error(`Unknown node type: ${node.type}`);
     }
   });
-  return `{\n${lines.join('\n')}\n${' '.repeat(4 * (depth - 1))}}`;
+  return `{\n${lines.join('\n')}\n${indent}}`;
 };
 
 export default formatStylish;

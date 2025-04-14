@@ -25,7 +25,7 @@ const formatStylish = (diff, depth = 1) => {
       case 'changed':
         return [
           `${indent}  - ${node.key}: ${formatValue(node.value1, depth + 1)}`,
-          `${indent}  + ${node.key}: ${formatValue(node.value2, depth + 1)}`
+          `${indent}  + ${node.key}: ${formatValue(node.value2, depth + 1)}`,
         ];
       case 'nested':
         return `${indent}    ${node.key}: ${formatStylish(node.children, depth + 1)}`;

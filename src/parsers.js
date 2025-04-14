@@ -19,7 +19,7 @@ const parseFile = (filepath) => {
     throw new Error(`Unsupported file format: ${ext}`);
   }
 
-  const content = fs.readFileSync(filepath, 'utf-8');
+  const content = fs.readFileSync(filepath, 'UTF-8');
   return parse(content);
 };
 

@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
-import { resolve } from 'path';
-import parseFile from '../src/parsers.js';
 import genDiff from '../src/index.js';
 
 const program = new Command();
@@ -14,12 +12,7 @@ program
   .arguments('<filepath1> <filepath2>')
   .action((filepath1, filepath2, options) => {
     try {
-      const absolutePath1 = resolve(process.cwd(), filepath1);
-      const absolutePath2 = resolve(process.cwd(), filepath2);
-
-      const data1 = parseFile(absolutePath1);
-      const data2 = parseFile(absolutePath2);
-      const diff = genDiff(data1, data2, options.format);
+      const diff = genDiff(filepath1, filepath2, options.format);
       console.log(diff);
     } catch (error) {
       console.error('Error:', error.message);

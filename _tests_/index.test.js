@@ -98,6 +98,13 @@ describe('genDiff', () => {
       const data2 = parseFile(file2);
       const result = genDiff(data1, data2, 'json');
 
+      test('debug yaml parsing', () => {
+        const yamlContent = parseFile(getFixturePath('file1.yml'));
+        console.log('Parsed YAML:', JSON.stringify(yamlContent, null, 2));
+        expect(yamlContent).toHaveProperty('common');
+        expect(yamlContent).toHaveProperty('group1');
+      });
+
       expect(() => JSON.parse(result)).not.toThrow();
       const parsed = JSON.parse(result);
       expect(parsed).toBeInstanceOf(Array);

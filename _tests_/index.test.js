@@ -6,12 +6,12 @@ import genDiff from '../src/index.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const getFixturePath = (filename) => resolve(__dirname, '..', '__fixtures__', filename);
-const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8').trim();
+const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
 
 describe('genDiff', () => {
-  const expectedStylish = readFile('expected-stylish.txt');
-  const expectedPlain = readFile('expected-plain.txt');
-  const expectedJson = readFile('expected-json.txt');
+  const expectedStylish = readFile('expected-stylish.txt').trim();
+  const expectedPlain = readFile('expected-plain.txt').trim();
+  const expectedJson = readFile('expected-json.txt').trim();
 
   describe('Stylish format', () => {
     test('should compare nested JSON files', () => {

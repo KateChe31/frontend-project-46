@@ -35,7 +35,7 @@ export default [
       'no-underscore-dangle': [
         'error',
         {
-          allow: ['filename', 'dirname'],
+          allow: ['__filename', '__dirname'],
         },
       ],
       'import/extensions': [

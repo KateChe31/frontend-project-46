@@ -1,31 +1,29 @@
 import { readFileSync } from 'fs';
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import genDiff from '../src/index.js';
-import parseFile from '../src/parsers.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const getFixturePath = (filename) => resolve(__dirname, '..', '__fixtures__', filename);
-const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8');
+const readFile = (filename) => readFileSync(getFixturePath(filename), 'utf-8').trim();
 
 describe('genDiff', () => {
-  const expectedStylish = readFile('expected-stylish.txt').trim();
-  const expectedPlain = readFile('expected-plain.txt').trim();
-  const expectedJson = readFile('expected-json.txt').trim();
+  const expectedStylish = readFile('expected-stylish.txt');
+  const expectedPlain = readFile('expected-plain.txt');
+  const expectedJson = readFile('expected-json.txt');
 
   describe('Stylish format', () => {
     test('should compare nested JSON files', () => {
       const file1 = getFixturePath('file1.json');
       const file2 = getFixturePath('file2.json');
-      const data1 = parseFile(file1);
-      const data2 = parseFile(file2);
-      expect(genDiff(data1, data2)).toEqual(expectedStylish);
+      expect(genDiff(file1, file2)).toEqual(expectedStylish);
     });
 
     test('should compare nested YAML files', () => {
       const file1 = getFixturePath('file1.yml');
       const file2 = getFixturePath('file2.yml');
-      const data1 = parseFile(file1);
-      const data2 = parseFile(file2);
-      expect(genDiff(data1, data2)).toEqual(expectedStylish);
+      expect(genDiff(file1, file2)).toEqual(expectedStylish);
     });
   });
 
@@ -33,17 +31,13 @@ describe('genDiff', () => {
     test('should compare files in plain format', () => {
       const file1 = getFixturePath('file1.json');
       const file2 = getFixturePath('file2.json');
-      const data1 = parseFile(file1);
-      const data2 = parseFile(file2);
-      expect(genDiff(data1, data2, 'plain')).toEqual(expectedPlain);
+      expect(genDiff(file1, file2, 'plain')).toEqual(expectedPlain);
     });
 
     test('should work with YAML files in plain format', () => {
       const file1 = getFixturePath('file1.yml');
       const file2 = getFixturePath('file2.yml');
-      const data1 = parseFile(file1);
-      const data2 = parseFile(file2);
-      expect(genDiff(data1, data2, 'plain')).toEqual(expectedPlain);
+      expect(genDiff(file1, file2, 'plain')).toEqual(expectedPlain);
     });
   });
 
@@ -51,9 +45,7 @@ describe('genDiff', () => {
     test('should format diff as valid JSON', () => {
       const file1 = getFixturePath('file1.json');
       const file2 = getFixturePath('file2.json');
-      const data1 = parseFile(file1);
-      const data2 = parseFile(file2);
-      const result = genDiff(data1, data2, 'json');
+      const result = genDiff(file1, file2, 'json');
 
       expect(() => JSON.parse(result)).not.toThrow();
       expect(result).toEqual(expectedJson);
@@ -62,9 +54,7 @@ describe('genDiff', () => {
     test('should contain all diff information in JSON', () => {
       const file1 = getFixturePath('file1.json');
       const file2 = getFixturePath('file2.json');
-      const data1 = parseFile(file1);
-      const data2 = parseFile(file2);
-      const result = JSON.parse(genDiff(data1, data2, 'json'));
+      const result = JSON.parse(genDiff(file1, file2, 'json'));
 
       expect(result).toBeInstanceOf(Array);
 
@@ -94,20 +84,17 @@ describe('genDiff', () => {
     test('should work with YAML files in JSON format', () => {
       const file1 = getFixturePath('file1.yml');
       const file2 = getFixturePath('file2.yml');
-      const data1 = parseFile(file1);
-      const data2 = parseFile(file2);
-      const result = genDiff(data1, data2, 'json');
-
-      test('debug yaml parsing', () => {
-        const yamlContent = parseFile(getFixturePath('file1.yml'));
-        console.log('Parsed YAML:', JSON.stringify(yamlContent, null, 2));
-        expect(yamlContent).toHaveProperty('common');
-        expect(yamlContent).toHaveProperty('group1');
-      });
+      const result = genDiff(file1, file2, 'json');
 
       expect(() => JSON.parse(result)).not.toThrow();
       const parsed = JSON.parse(result);
       expect(parsed).toBeInstanceOf(Array);
     });
+  });
+
+  test('debug yaml parsing', () => {
+    const yamlContent = readFileSync(getFixturePath('file1.yml'), 'utf-8');
+    expect(yamlContent).toContain('common');
+    expect(yamlContent).toContain('group1');
   });
 });

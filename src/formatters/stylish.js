@@ -11,7 +11,7 @@ const stringify = (value, depth) => {
 
   const indent = buildIndent(depth + 1);
   const lines = Object.entries(value).map(
-    ([key, val]) => `${indent}${key}: ${stringify(val, depth + 1)}`
+    ([key, val]) => `${indent}${key}: ${stringify(val, depth + 1)}`,
   );
   return `{\n${lines.join('\n')}\n${buildIndent(depth)}}`;
 };
@@ -19,8 +19,7 @@ const stringify = (value, depth) => {
 const formatStylish = (diff, depth = 0) => {
   const indent = buildIndent(depth);
   const lines = diff.map((node) => {
-    const makeLine = (sign, key, value) => 
-      `${indent}  ${sign} ${key}: ${stringify(value, depth + 1)}`;
+    const makeLine = (sign, key, value) => `${indent}  ${sign} ${key}: ${stringify(value, depth + 1)}`;
 
     switch (node.type) {
       case 'added':
@@ -30,7 +29,7 @@ const formatStylish = (diff, depth = 0) => {
       case 'changed':
         return [
           makeLine('-', node.key, node.value1),
-          makeLine('+', node.key, node.value2)
+          makeLine('+', node.key, node.value2),
         ];
       case 'nested':
         return `${indent}    ${node.key}: {\n${formatStylish(node.children, depth + 1)}\n${indent}    }`;

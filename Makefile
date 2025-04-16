@@ -10,3 +10,6 @@ lint:
 lint-fix:
 	npx eslint --fix .
 
+test:
+	npm test
+	
